@@ -101,6 +101,11 @@
             display: none;
             width: 80%;
             max-width: 800px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
         }
     </style>
     <script>
@@ -119,7 +124,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.createElement('video');
             video.style.display = 'none';
-            video.controls = false;
+            video.controls = true;
             video.width = '80%';
             video.maxWidth = '800px';
             document.body.appendChild(video);
