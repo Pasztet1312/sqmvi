@@ -138,8 +138,6 @@
                 video.style.display = 'block';
                 video.controls = true;
                 video.muted = isMuted;
-                video.load(); // Ensure video is loaded
-                video.play(); // Start video playback
 
                 function enterFullscreen() {
                     if (video.requestFullscreen) {
@@ -163,7 +161,6 @@
                     }
                 }
 
-                video.addEventListener('webkitendfullscreen', handleFullscreenChange);
                 document.addEventListener('fullscreenchange', handleFullscreenChange);
                 document.addEventListener('mozfullscreenchange', handleFullscreenChange);
                 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
