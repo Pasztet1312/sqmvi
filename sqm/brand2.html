@@ -61,7 +61,7 @@
         }
         .back-button {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 100px;
         }
         .back-button a {
             text-decoration: none;
@@ -80,6 +80,14 @@
             display: none;
             width: 80%;
             max-width: 800px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+        .hidden {
+            display: none !important;
         }
     </style>
     <script>
@@ -90,14 +98,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.createElement('video');
             video.style.display = 'none';
-            video.controls = false;
+            video.controls = true;
             video.width = '80%';
             video.maxWidth = '800px';
             document.body.appendChild(video);
 
             function playVideo(src) {
                 video.src = src;
-                video.style.display = 'block';
+                video.classList.add('hidden');
                 video.controls = true;
 
                 function enterFullscreen() {
@@ -120,6 +128,8 @@
                         video.pause();
                         video.style.display = 'none';
                         goToHome();
+                    } else {
+                        video.classList.remove('hidden');
                     }
                 }
 
