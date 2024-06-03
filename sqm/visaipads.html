@@ -56,6 +56,9 @@
             width: 80%;
             max-width: 800px;
         }
+        .hidden {
+            display: none !important;
+        }
     </style>
     <script>
         function goToHome() {
@@ -69,9 +72,10 @@
             let isMuted = true;
 
             function playVideo(video) {
+                video.classList.add('hidden'); // Add hidden class to hide video initially
+                video.controls = true;
                 video.muted = isMuted;
-                video.style.display = 'block';
-                video.controls = false;
+                video.load(); // Ensure video is loaded
 
                 function enterFullscreen() {
                     if (video.requestFullscreen) {
@@ -82,34 +86,42 @@
                         video.webkitRequestFullscreen();
                     } else if (video.msRequestFullscreen) {
                         video.msRequestFullscreen();
+                    } else if (video.webkitEnterFullscreen) {  // iOS specific
+                        video.webkitEnterFullscreen();
                     }
                 }
 
                 function handleFullscreenChange() {
                     if (!document.fullscreenElement && !document.mozFullScreenElement &&
                         !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                        video.pause();
                         video.style.display = 'none';
-                        goToHome();
                     }
                 }
 
+                video.addEventListener('webkitendfullscreen', handleFullscreenChange);
                 document.addEventListener('fullscreenchange', handleFullscreenChange);
                 document.addEventListener('mozfullscreenchange', handleFullscreenChange);
                 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
                 document.addEventListener('msfullscreenchange', handleFullscreenChange);
 
-                enterFullscreen();
-                video.play();
+                video.play().then(() => {
+                    enterFullscreen();
+                    video.classList.remove('hidden'); // Remove hidden class after entering fullscreen
+                }).catch(err => {
+                    console.error('Error attempting to play video:', err);
+                });
             }
 
             function handleVideoEnd(video) {
+                video.pause();
                 video.style.display = 'none';
                 goToHome();
             }
 
             video1.addEventListener('ended', () => handleVideoEnd(video1));
             video2.addEventListener('ended', () => handleVideoEnd(video2));
-            video2.addEventListener('ended', () => handleVideoEnd(video3));
+            video3.addEventListener('ended', () => handleVideoEnd(video3));
 
             document.getElementById('playVideo1').addEventListener('click', () => playVideo(video1));
             document.getElementById('playVideo2').addEventListener('click', () => playVideo(video2));
@@ -126,15 +138,15 @@
         <button id="playVideo2">Buy now</button>
         <button id="playVideo3">Checkout</button>
     </div>
-    <video id="video1">
+    <video id="video1" class="hidden">
         <source src="videos/CTP-Login-Money2020.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <video id="video2">
+    <video id="video2" class="hidden">
         <source src="videos/CTP-Buynow-Money2020.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <video id="video3">
+    <video id="video3" class="hidden">
         <source src="videos/CTP-Checkout-Money2020.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
