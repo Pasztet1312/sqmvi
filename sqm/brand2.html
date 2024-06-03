@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="fonts/VisaDialect/VisaDialect-Medium.woff2" as="font" type="font/woff2">
+    <link rel="stylesheet" href="fonts/VisaDialect/stylesheet.css">
+    <title>Visa</title>
+    <style>
+        body {
+            font-family: 'Visa Dialect', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1434cb;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .logo-brand {
+            margin-top: 100px;
+            text-align: center;
+        }
+        .logo-brand img {
+            width: 300px;
+            height: auto;
+        }
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .icon-flex {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+        }
+        .icon {
+            padding: 20px 25px;
+            text-align: center;
+            margin: 0 10px;
+            color: black;
+            transition: background-color 0.3s, transform 0.3s;
+            background: #fcc015;
+            border-radius: 26px;
+            cursor: pointer;
+            min-width: 100px;
+        }
+        .icon a {
+            text-decoration: none;
+            color: white;
+        }
+        .icon:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+            color: #000;
+        }
+        .icon p {
+            margin: 0;
+        }
+        .back-button {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .back-button a {
+            text-decoration: none;
+            color: whitesmoke;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+            border: 1px solid whitesmoke;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+        .back-button a:hover {
+            background-color: #0056b3;
+        }
+        video {
+            display: none;
+            width: 80%;
+            max-width: 800px;
+        }
+    </style>
+    <script>
+        function goToHome() {
+            window.location.href = 'brand2.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.createElement('video');
+            video.style.display = 'none';
+            video.controls = false;
+            video.width = '80%';
+            video.maxWidth = '800px';
+            document.body.appendChild(video);
+
+            function playVideo(src) {
+                video.src = src;
+                video.style.display = 'block';
+                video.controls = false;
+
+                function enterFullscreen() {
+                    if (video.requestFullscreen) {
+                        video.requestFullscreen();
+                    } else if (video.mozRequestFullScreen) {
+                        video.mozRequestFullScreen();
+                    } else if (video.webkitRequestFullscreen) {
+                        video.webkitRequestFullscreen();
+                    } else if (video.msRequestFullscreen) {
+                        video.msRequestFullscreen();
+                    }
+                }
+
+                function handleFullscreenChange() {
+                    if (!document.fullscreenElement && !document.mozFullScreenElement &&
+                        !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                        video.style.display = 'none';
+                        goToHome();
+                    }
+                }
+
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+                document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+                document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+                document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+                video.addEventListener('ended', () => {
+                    video.style.display = 'none';
+                    goToHome();
+                });
+
+                enterFullscreen();
+                video.play();
+            }
+
+            document.querySelectorAll('.icon').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const videoSrc = this.getAttribute('data-video-src');
+                    playVideo(videoSrc);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="logo-brand">
+        <img src="icons/visa.png" alt="Brand 1 Logo">
+    </div>
+    <div class="container">
+        <div class="icon-flex">
+            <div class="icon" data-video-src="videos/lbg_with_subs_v4.mp4">
+                <p>Lloyds - Click to Pay</p>
+            </div>
+            <div class="icon" data-video-src="videos/VisaAS-AIinPaymentsvideo.mp4">
+                <p>AI in Payments</p>
+            </div>
+            <div class="icon" data-video-src="videos/VisaASRoadshowusecasefilm.mp4">
+                <p>Acceptance Solutions</p>
+            </div>
+            <div class="icon" data-video-src="videos/DigitalCheckoutVideo.mp4">
+                <p>Digital Checkout</p>
+            </div>
+        </div>
+    </div>
+    <div class="back-button">
+        <a href="javascript:history.back()">Home</a>
+    </div>
+</body>
+</html>

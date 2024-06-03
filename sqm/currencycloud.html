@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fonts/VisaDialect/stylesheet.css">
+    <link rel="preload" href="fonts/VisaDialect/VisaDialect-Medium.woff2" as="font" type="font/woff2">
+    <title>Currencycloud</title>
+    <style>
+        body {
+            font-family: 'Visa Dialect', sans-serif;
+            font-weight: 500;
+            font-style: normal;
+            margin: 0;
+            padding: 0;
+            background-color: #ff5000;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+        }
+        .logo {
+            text-align: center;
+            margin-top: 200px;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 400px;
+            height: auto;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 150px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+            justify-content: space-evenly;
+        }
+        .controls button, .controls a {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #1a73e8;
+            color: #fff;
+            border: 0px solid #0056b3;
+            border-radius: 26px;
+            transition: background-color 0.3s, border-color 0.3s;
+            text-decoration: none;
+        }
+        .controls button:hover, .controls a:hover {
+            opacity: 0.5;
+        }
+        button.crnc, a.crnc {
+            background-color: #0000;
+            border: 2px solid #404041;
+            color: #404041;
+            cursor: pointer;
+            padding: 16px 27px;
+            position: relative;
+            text-align: center;
+            border-radius: 0;
+            font-weight: 700;
+            font-size: 18px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        a.crnc {
+            display: inline-block;
+        }
+        video {
+            display: none;
+            width: 80%;
+            max-width: 800px;
+        }
+    </style>
+    <script>
+        function goToHome() {
+            window.location.href = 'currencycloud.html';
+        }
+
+        function openLink(linkSrc) {
+            const newWindow = window.open(linkSrc, '_blank');
+            newWindow.onload = function() {
+                const script = newWindow.document.createElement('script');
+                script.textContent = `
+                    (function() {
+                        function createReturnButton() {
+                            const button = document.createElement('button');
+                            button.innerText = '↩';
+                            button.style.position = 'fixed';
+                            button.style.bottom = '20px';
+                            button.style.right = '20px';
+                            button.style.backgroundColor = '#1a73e8';
+                            button.style.color = 'white';
+                            button.style.border = 'none';
+                            button.style.borderRadius = '50%';
+                            button.style.width = '50px';
+                            button.style.height = '50px';
+                            button.style.fontSize = '24px';
+                            button.style.cursor = 'pointer';
+                            button.style.zIndex = '1000';
+                            button.addEventListener('click', function() {
+                                window.close();
+                            });
+                            document.body.appendChild(button);
+                        }
+                        createReturnButton();
+                    })();
+                `;
+                newWindow.document.body.appendChild(script);
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const video1 = document.getElementById('video1');
+            const video2 = document.getElementById('video2');
+            const video3 = document.getElementById('video3');
+            let isMuted = true;
+
+            function playVideo(video) {
+                video.muted = isMuted;
+                video.style.display = 'block';
+                video.controls = false;
+
+                function enterFullscreen() {
+                    if (video.requestFullscreen) {
+                        video.requestFullscreen();
+                    } else if (video.mozRequestFullScreen) {
+                        video.mozRequestFullScreen();
+                    } else if (video.webkitRequestFullscreen) {
+                        video.webkitRequestFullscreen();
+                    } else if (video.msRequestFullscreen) {
+                        video.msRequestFullscreen();
+                    }
+                }
+
+                function handleFullscreenChange() {
+                    if (!document.fullscreenElement && !document.mozFullScreenElement &&
+                        !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                        video.pause();
+                        video.style.display = 'none';
+                        goToHome();
+                    }
+                }
+
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+                document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+                document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+                document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+                enterFullscreen();
+                video.play();
+            }
+
+            function handleVideoEnd(video) {
+                video.style.display = 'none';
+                goToHome();
+            }
+
+            video1.addEventListener('ended', () => handleVideoEnd(video1));
+            video2.addEventListener('ended', () => handleVideoEnd(video2));
+            video3.addEventListener('ended', () => handleVideoEnd(video3));
+
+            document.getElementById('playVideo1').addEventListener('click', () => playVideo(video1));
+            document.getElementById('playVideo2').addEventListener('click', () => playVideo(video2));
+            document.getElementById('playVideo3').addEventListener('click', () => playVideo(video3));
+            document.getElementById('playLink').addEventListener('click', () => openLink('https://eu1.hubs.ly/H09hDmG0'));
+        });
+    </script>
+</head>
+<body>
+    <div class="logo">
+        <img src="icons/currency.png" alt="Visa Logo">
+    </div>
+    <div class="controls">
+        <button class="crnc" id="playVideo1">We’ve Got You Video</button>
+        <button class="crnc" id="playVideo2">Do you know the basics of FX?</button>
+        <button class="crnc" id="playVideo3">Shyft Case Study</button>
+        <a class="crnc" id="playLink" href="#">FX for Dummies</a>
+    </div>
+    <video id="video1">
+        <source src="videos/IM-24-Trustvideo_CCiPad.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <video id="video2">
+        <source src="videos/basicsofFX_.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <video id="video3">
+        <source src="videos/IM-31-VisaPartnerDay_ShyftCaseStudy.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</body>
+</html>

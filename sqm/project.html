@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fonts/VisaDialect/stylesheet.css">
+    <link rel="preload" href="fonts/VisaDialect/VisaDialect-Medium.woff2" as="font" type="font/woff2">
+    <title>Main Page</title>
+    <style>
+        body {
+            font-family: 'Visa Dialect';
+            font-weight: 500;
+            font-style: normal;
+            margin: 0;
+            padding: 0;
+            background-color: #021e4c;
+            background-image: url('images/bg.jpg');
+            height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .brand-flex {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            /* height: 100%; */
+            position: relative;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+        .brand {
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+        }
+        .separator {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #ccc;
+        }
+        .separator:nth-child(2) {
+            left: 33.33%;
+        }
+        .separator:nth-child(4) {
+            left: 66.66%;
+        }
+        img {
+            width: 300px;
+            max-width: 300px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="brand-flex">
+        <div class="brand">
+            <a href="brand1.html"><img src="icons/currency.png" alt="Brand 1"></a>
+        </div>
+        <div class="separator"></div>
+        <div class="brand">
+            <a href="brand2.html"><img src="icons/visa.png" alt="Brand 2"></a>
+        </div>
+        <div class="separator"></div>
+        <div class="brand">
+            <a href="brand3.html"><img src="icons/think.png" alt="Brand 3"></a>
+        </div>
+    </div>
+</body>
+</html>

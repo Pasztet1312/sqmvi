@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fonts/VisaDialect/stylesheet.css">
+    <link rel="preload" href="fonts/VisaDialect/VisaDialect-Medium.woff2" as="font" type="font/woff2">
+    <title>Currencycloud</title>
+    <style>
+        body {
+            font-family: 'Visa Dialect', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ff5000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
+        .logo-brand {
+            margin-top: 100px;
+            text-align: center;
+        }
+        .logo-brand img {
+            width: 300px;
+            height: auto;
+        }
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .icon-flex {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+        }
+        .icon {
+            padding: 20px;
+            text-align: center;
+            margin: 0 10px;
+            color: white;
+            transition: background-color 0.3s, transform 0.3s;
+            background: transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            min-width: 100px;
+            border: 1px solid;
+            font-weight: 700;
+        }
+        .icon a {
+            text-decoration: none;
+            color: white;
+        }
+        .icon:hover {
+            background-color: #ff8666;
+            transform: scale(1.05);
+        }
+        .icon p {
+            margin: 0;
+        }
+        .back-button {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .back-button a {
+            text-decoration: none;
+            color: white;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            border: 1px solid white;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+        .back-button a:hover {
+            background-color: #e64a19;
+        }
+        .floating-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+            font-size: 18px;
+        }
+        .floating-message a {
+            color: white;
+            text-decoration: underline;
+        }
+        .floating-message a:hover {
+            color: #ccc;
+        }
+        video {
+            display: none;
+            width: 80%;
+            max-width: 800px;
+        }
+    </style>
+    <script>
+        function goToHome() {
+            window.location.href = 'brand1.html';
+        }
+
+        function showFloatingMessage() {
+            const message = document.querySelector('.floating-message');
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 5000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.createElement('video');
+            video.style.display = 'none';
+            video.controls = false;
+            video.width = '80%';
+            video.maxWidth = '800px';
+            document.body.appendChild(video);
+
+            function playVideo(src) {
+                video.src = src;
+                video.style.display = 'block';
+                video.controls = false;
+
+                function enterFullscreen() {
+                    if (video.requestFullscreen) {
+                        video.requestFullscreen();
+                    } else if (video.mozRequestFullScreen) {
+                        video.mozRequestFullScreen();
+                    } else if (video.webkitRequestFullscreen) {
+                        video.webkitRequestFullscreen();
+                    } else if (video.msRequestFullscreen) {
+                        video.msRequestFullscreen();
+                    }
+                }
+
+                function handleFullscreenChange() {
+                    if (!document.fullscreenElement && !document.mozFullScreenElement &&
+                        !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                        video.style.display = 'none';
+                        goToHome();
+                    }
+                }
+
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+                document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+                document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+                document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+                video.addEventListener('ended', () => {
+                    video.style.display = 'none';
+                    goToHome();
+                });
+
+                enterFullscreen();
+                video.play();
+            }
+
+            document.querySelectorAll('.icon').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const videoSrc = this.getAttribute('data-video-src');
+                    if (videoSrc) {
+                        playVideo(videoSrc);
+                    } else {
+                        let linkSrc = this.getAttribute('data-link-src');
+                        if (linkSrc) {
+                            linkSrc = `javascript:(function(){var s=document.createElement('script');s.src='returnButton.js';document.body.appendChild(s);window.location.href='${linkSrc}';})();`;
+                            window.open(linkSrc, '_blank');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="logo-brand">
+        <img src="icons/currency.png" alt="Brand 1 Logo">
+    </div>
+    <div class="container">
+        <div class="icon-flex">
+            <div class="icon" data-video-src="videos/IM-24-Trustvideo_CCiPad.mp4">
+                <p>Demo Video</p>
+            </div>
+            <div class="icon" data-link-src="https://www.currencycloud.com/company/resources/time-to-make-compliance-front-of-mind/">
+                <p>Compliance eBook</p>
+            </div>
+            <div class="icon" data-link-src="https://go.currencycloud.com/trust-clp">
+                <p>Learn More</p>
+            </div>
+        </div>
+    </div>
+    <div class="floating-message">
+        Back <a href="#">Обновить</a>
+    </div>
+    <div class="back-button">
+        <a href="javascript:history.back()">Home</a>
+    </div>
+</body>
+</html>
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fonts/VisaDialect/stylesheet.css">
+    <link rel="preload" href="fonts/VisaDialect/VisaDialect-Medium.woff2" as="font" type="font/woff2">
+    <title>Currencycloud</title>
+    <style>
+        body {
+            font-family: 'Visa Dialect', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ff5000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
+        .logo-brand {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .logo-brand img {
+            width: 300px;
+            height: auto;
+        }
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .icon-flex {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .icon {
+            padding: 20px;
+            text-align: center;
+            color: white;
+            transition: background-color 0.3s, transform 0.3s;
+            background: transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            min-width: 100px;
+            border: 1px solid;
+            font-weight: 700;
+        }
+        .icon:hover {
+            background-color: #ff8666;
+            transform: scale(1.05);
+        }
+        .icon p {
+            margin: 0;
+        }
+        .back-button {
+            text-align: center;
+            margin: 40px;
+        }
+        .back-button a,
+        .back-button button {
+            text-decoration: none;
+            color: white;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            border: 1px solid white;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+            font-weight: 700;
+            background-color: transparent;
+            cursor: pointer;
+            font-family: 'Visa Dialect';
+            font-size: 16px;
+        }
+        .back-button a:hover,
+        .back-button button:hover {
+            background-color: #e64a19;
+        }
+        iframe {
+            width: 80%;
+            height: 70vh;
+            border: none;
+            display: none;
+        }
+        .iframe-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+    </style>
+    <script>
+        function goToHome() {
+            window.location.href = 'project.html';
+        }
+
+        function showIframe(linkSrc) {
+            const iframe = document.getElementById('contentFrame');
+            const iframeContainer = document.querySelector('.iframe-container');
+            const icons = document.querySelectorAll('.icon');
+            const backButton = document.getElementById('iframeBackButton');
+
+            iframe.src = linkSrc;
+            iframe.style.display = 'block';
+            icons.forEach(i => i.style.display = 'none');
+            iframeContainer.style.display = 'flex';
+            backButton.style.display = 'inline-block';
+        }
+
+        function hideIframe() {
+            const iframe = document.getElementById('contentFrame');
+            const iframeContainer = document.querySelector('.iframe-container');
+            const icons = document.querySelectorAll('.icon');
+            const backButton = document.getElementById('iframeBackButton');
+
+            iframe.src = '';
+            iframe.style.display = 'none';
+            icons.forEach(i => i.style.display = 'block');
+            iframeContainer.style.display = 'none';
+            backButton.style.display = 'none';
+        }
+
+        function playVideo(videoSrc) {
+            const video = document.createElement('video');
+            video.src = videoSrc;
+            video.style.display = 'block';
+            video.controls = false;
+
+            function enterFullscreen() {
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.mozRequestFullScreen) {
+                    video.mozRequestFullScreen();
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) {
+                    video.msRequestFullscreen();
+                }
+            }
+
+            function handleFullscreenChange() {
+                if (!document.fullscreenElement && !document.mozFullScreenElement &&
+                    !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                    video.style.display = 'none';
+                    goToHome();
+                }
+            }
+
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+            video.addEventListener('ended', () => {
+                video.style.display = 'none';
+                goToHome();
+            });
+
+            document.body.appendChild(video);
+            enterFullscreen();
+            video.play();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const icons = document.querySelectorAll('.icon');
+
+            icons.forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const videoSrc = this.getAttribute('data-video-src');
+                    const linkSrc = this.getAttribute('data-link-src');
+                    if (videoSrc) {
+                        playVideo(videoSrc);
+                    } else if (linkSrc) {
+                        showIframe(linkSrc);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="logo-brand">
+        <img src="icons/currency.png" alt="Brand 1 Logo">
+    </div>
+    <div class="container">
+        <div class="icon-flex">
+            <div class="icon" data-link-src="https://www.currencycloud.com/company/resources/time-to-make-compliance-front-of-mind/">
+                <p>Compliance eBook</p>
+            </div>
+            <div class="icon" data-link-src="https://go.currencycloud.com/trust-clp">
+                <p>Trust Campaign</p>
+            </div>
+            <div class="icon" data-video-src="videos/IM-24-Trust video_CCiPad.mp4">
+                <p>Demo Video</p>
+            </div>
+        </div>
+        <div class="iframe-container">
+            <iframe id="contentFrame"></iframe>
+        </div>
+    </div>
+    <div class="back-button">
+        <button id="iframeBackButton" style="display:none;" onclick="hideIframe()">Back</button>
+        <a href="project.html">Home</a>
+    </div>
+</body>
+</html> -->
