@@ -22,21 +22,22 @@
         }
         .logo {
             text-align: center;
-            margin-top: 200px;
+            margin-top: 50px;
             margin-bottom: 20px;
         }
         .logo img {
-            width: 400px;
+            width: 80%;
+            max-width: 400px;
             height: auto;
         }
         .controls {
             text-align: center;
-            margin-top: 150px;
+            margin-top: 50px;
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             width: 100%;
-            justify-content: space-evenly;
+            justify-content: center;
         }
         .controls button, .controls a {
             padding: 15px 30px;
@@ -48,17 +49,17 @@
             border-radius: 26px;
             transition: background-color 0.3s, border-color 0.3s;
             text-decoration: none;
+            text-align: center;
         }
         .controls button:hover, .controls a:hover {
             opacity: 0.5;
         }
         button.crnc, a.crnc {
-            background-color: #0000;
+            background-color: transparent;
             border: 2px solid #404041;
             color: #404041;
             cursor: pointer;
             padding: 16px 27px;
-            position: relative;
             text-align: center;
             border-radius: 0;
             font-weight: 700;
@@ -70,8 +71,25 @@
         }
         video {
             display: none;
-            width: 80%;
+            width: 100%;
             max-width: 800px;
+            max-height: 450px;
+        }
+        @media (max-width: 768px) {
+            .logo {
+                margin-top: 20px;
+            }
+            .controls {
+                margin-top: 20px;
+            }
+            .controls button, .controls a {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            button.crnc, a.crnc {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
         }
     </style>
     <script>
@@ -113,9 +131,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const video1 = document.getElementById('video1');
-            const video2 = document.getElementById('video2');
-            const video3 = document.getElementById('video3');
+            const videos = document.querySelectorAll('video');
             let isMuted = true;
 
             function playVideo(video) {
@@ -137,15 +153,27 @@
                     }
                 }
 
+                function exitFullscreen() {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                }
+
                 function handleFullscreenChange() {
                     if (!document.fullscreenElement && !document.mozFullScreenElement &&
                         !document.webkitFullscreenElement && !document.msFullscreenElement) {
                         video.pause();
                         video.style.display = 'none';
-                        goToHome();
                     }
                 }
 
+                video.addEventListener('webkitendfullscreen', handleFullscreenChange);
                 document.addEventListener('fullscreenchange', handleFullscreenChange);
                 document.addEventListener('mozfullscreenchange', handleFullscreenChange);
                 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
@@ -156,17 +184,19 @@
             }
 
             function handleVideoEnd(video) {
+                exitFullscreen();
+                video.pause();
                 video.style.display = 'none';
                 goToHome();
             }
 
-            video1.addEventListener('ended', () => handleVideoEnd(video1));
-            video2.addEventListener('ended', () => handleVideoEnd(video2));
-            video3.addEventListener('ended', () => handleVideoEnd(video3));
+            videos.forEach(video => {
+                video.addEventListener('ended', () => handleVideoEnd(video));
+            });
 
-            document.getElementById('playVideo1').addEventListener('click', () => playVideo(video1));
-            document.getElementById('playVideo2').addEventListener('click', () => playVideo(video2));
-            document.getElementById('playVideo3').addEventListener('click', () => playVideo(video3));
+            document.getElementById('playVideo1').addEventListener('click', () => playVideo(document.getElementById('video1')));
+            document.getElementById('playVideo2').addEventListener('click', () => playVideo(document.getElementById('video2')));
+            document.getElementById('playVideo3').addEventListener('click', () => playVideo(document.getElementById('video3')));
             document.getElementById('playLink').addEventListener('click', () => openLink('https://eu1.hubs.ly/H09hDmG0'));
         });
     </script>
