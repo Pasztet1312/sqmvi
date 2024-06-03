@@ -107,6 +107,9 @@
             transform: translate(-50%, -50%);
             z-index: 1000;
         }
+        .hidden {
+            display: none !important;
+        }
     </style>
     <script>
         function goToHome() {
@@ -131,7 +134,7 @@
 
             function playVideo(src) {
                 video.src = src;
-                video.style.display = 'block';
+                video.classList.add('hidden');
                 video.controls = true;
 
                 function enterFullscreen() {
@@ -154,6 +157,8 @@
                         video.pause();
                         video.style.display = 'none';
                         goToHome();
+                    } else {
+                        video.classList.remove('hidden');
                     }
                 }
 
