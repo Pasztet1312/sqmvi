@@ -95,9 +95,17 @@
             window.location.href = 'brand2.html';
         }
 
+        function showFloatingMessage() {
+            const message = document.querySelector('.floating-message');
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 5000);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.createElement('video');
-            video.classList.add('hidden');
+            video.style.display = 'none';
             video.controls = true;
             video.width = '80%';
             video.maxWidth = '800px';
@@ -105,6 +113,7 @@
 
             function playVideo(src) {
                 video.src = src;
+                video.classList.add('hidden');
                 video.controls = true;
 
                 function enterFullscreen() {
@@ -153,7 +162,9 @@
             document.querySelectorAll('.icon').forEach(icon => {
                 icon.addEventListener('click', function() {
                     const videoSrc = this.getAttribute('data-video-src');
-                    playVideo(videoSrc);
+                    if (videoSrc) {
+                        playVideo(videoSrc);
+                    }
                 });
             });
         });
