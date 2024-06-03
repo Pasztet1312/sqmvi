@@ -51,12 +51,9 @@
             background-color: #fcc015;
         }
         video {
-            visibility: hidden;
+            display: none;
             width: 80%;
             max-width: 800px;
-        }
-        .visible {
-            visibility: visible !important;
         }
     </style>
     <script>
@@ -71,7 +68,7 @@
             let isMuted = true;
 
             function playVideo(video) {
-                video.classList.remove('visible'); // Ensure the video is initially hidden
+                video.style.display = 'block'; // Ensure the video is initially hidden
                 video.controls = true;
                 video.muted = isMuted;
                 video.load(); // Ensure video is loaded
@@ -91,12 +88,10 @@
                 }
 
                 function handleFullscreenChange() {
-                    if (document.fullscreenElement || document.mozFullScreenElement ||
-                        document.webkitFullscreenElement || document.msFullscreenElement) {
-                        video.classList.add('visible'); // Show video when entering fullscreen
-                    } else {
+                    if (!document.fullscreenElement && !document.mozFullScreenElement &&
+                        !document.webkitFullscreenElement && !document.msFullscreenElement) {
                         video.pause();
-                        video.classList.remove('visible'); // Hide video when exiting fullscreen
+                        video.style.display = 'none';
                         goToHome();
                     }
                 }
@@ -116,7 +111,7 @@
 
             function handleVideoEnd(video) {
                 video.pause();
-                video.classList.remove('visible');
+                video.style.display = 'none';
                 goToHome();
             }
 
