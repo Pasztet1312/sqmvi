@@ -97,7 +97,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.createElement('video');
-            video.style.display = 'none';
+            video.classList.add('hidden');
             video.controls = true;
             video.width = '80%';
             video.maxWidth = '800px';
@@ -105,7 +105,6 @@
 
             function playVideo(src) {
                 video.src = src;
-                video.classList.add('hidden');
                 video.controls = true;
 
                 function enterFullscreen() {
