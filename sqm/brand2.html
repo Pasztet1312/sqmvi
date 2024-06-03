@@ -17,12 +17,6 @@
             justify-content: space-between;
             min-height: 100vh;
         }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
         .logo-brand {
             margin-top: 100px;
             text-align: center;
@@ -104,7 +98,7 @@
             function playVideo(src) {
                 video.src = src;
                 video.style.display = 'block';
-                video.controls = false;
+                video.controls = true;
 
                 function enterFullscreen() {
                     if (video.requestFullscreen) {
@@ -115,17 +109,21 @@
                         video.webkitRequestFullscreen();
                     } else if (video.msRequestFullscreen) {
                         video.msRequestFullscreen();
+                    } else if (video.webkitEnterFullscreen) {  // iOS specific
+                        video.webkitEnterFullscreen();
                     }
                 }
 
                 function handleFullscreenChange() {
                     if (!document.fullscreenElement && !document.mozFullScreenElement &&
                         !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                        video.pause();
                         video.style.display = 'none';
                         goToHome();
                     }
                 }
 
+                video.addEventListener('webkitendfullscreen', handleFullscreenChange);
                 document.addEventListener('fullscreenchange', handleFullscreenChange);
                 document.addEventListener('mozfullscreenchange', handleFullscreenChange);
                 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
@@ -136,8 +134,11 @@
                     goToHome();
                 });
 
-                enterFullscreen();
-                video.play();
+                video.play().then(() => {
+                    enterFullscreen();
+                }).catch(err => {
+                    console.error('Error attempting to play video:', err);
+                });
             }
 
             document.querySelectorAll('.icon').forEach(icon => {

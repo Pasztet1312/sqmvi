@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="fonts/VisaDialect/stylesheet.css">
     <link rel="preload" href="fonts/VisaDialect/VisaDialect-Medium.woff2" as="font" type="font/woff2">
+    <link rel="stylesheet" href="fonts/VisaDialect/stylesheet.css">
     <title>Currencycloud</title>
     <style>
         body {
@@ -127,7 +127,7 @@
             function playVideo(src) {
                 video.src = src;
                 video.style.display = 'block';
-                video.controls = false;
+                video.controls = true;
 
                 function enterFullscreen() {
                     if (video.requestFullscreen) {
@@ -138,17 +138,21 @@
                         video.webkitRequestFullscreen();
                     } else if (video.msRequestFullscreen) {
                         video.msRequestFullscreen();
+                    } else if (video.webkitEnterFullscreen) {  // iOS specific
+                        video.webkitEnterFullscreen();
                     }
                 }
 
                 function handleFullscreenChange() {
                     if (!document.fullscreenElement && !document.mozFullScreenElement &&
                         !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                        video.pause();
                         video.style.display = 'none';
                         goToHome();
                     }
                 }
 
+                video.addEventListener('webkitendfullscreen', handleFullscreenChange);
                 document.addEventListener('fullscreenchange', handleFullscreenChange);
                 document.addEventListener('mozfullscreenchange', handleFullscreenChange);
                 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
@@ -159,8 +163,11 @@
                     goToHome();
                 });
 
-                enterFullscreen();
-                video.play();
+                video.play().then(() => {
+                    enterFullscreen();
+                }).catch(err => {
+                    console.error('Error attempting to play video:', err);
+                });
             }
 
             document.querySelectorAll('.icon').forEach(icon => {
