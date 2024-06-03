@@ -91,8 +91,10 @@
                 }
 
                 function handleFullscreenChange() {
-                    if (!document.fullscreenElement && !document.mozFullScreenElement &&
-                        !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                    if (document.fullscreenElement || document.mozFullScreenElement ||
+                        document.webkitFullscreenElement || document.msFullscreenElement) {
+                        video.classList.remove('hidden'); // Show video when entering fullscreen
+                    } else {
                         video.pause();
                         video.style.display = 'none';
                     }
@@ -106,7 +108,6 @@
 
                 video.play().then(() => {
                     enterFullscreen();
-                    video.classList.remove('hidden'); // Remove hidden class after entering fullscreen
                 }).catch(err => {
                     console.error('Error attempting to play video:', err);
                 });
