@@ -75,6 +75,9 @@
             max-width: 800px;
             max-height: 450px;
         }
+        .hidden {
+            display: none !important;
+        }
         @media (max-width: 768px) {
             .logo {
                 margin-top: 20px;
@@ -135,9 +138,10 @@
             let isMuted = true;
 
             function playVideo(video) {
-                video.style.display = 'block';
+                video.classList.add('hidden'); // Add hidden class to hide video initially
                 video.controls = true;
                 video.muted = isMuted;
+                video.load(); // Ensure video is loaded
 
                 function enterFullscreen() {
                     if (video.requestFullscreen) {
@@ -161,6 +165,7 @@
                     }
                 }
 
+                video.addEventListener('webkitendfullscreen', handleFullscreenChange);
                 document.addEventListener('fullscreenchange', handleFullscreenChange);
                 document.addEventListener('mozfullscreenchange', handleFullscreenChange);
                 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
@@ -168,6 +173,7 @@
 
                 video.play().then(() => {
                     enterFullscreen();
+                    video.classList.remove('hidden'); // Remove hidden class after entering fullscreen
                 }).catch(err => {
                     console.error('Error attempting to play video:', err);
                 });
@@ -200,15 +206,15 @@
         <button class="crnc" id="playVideo3">Shyft Case Study</button>
         <a class="crnc" id="playLink" href="#">FX for Dummies</a>
     </div>
-    <video id="video1">
+    <video id="video1" class="hidden">
         <source src="videos/IM-24-Trustvideo_CCiPad.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <video id="video2">
+    <video id="video2" class="hidden">
         <source src="videos/basicsofFX_.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <video id="video3">
+    <video id="video3" class="hidden">
         <source src="videos/IM-31-VisaPartnerDay_ShyftCaseStudy.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
