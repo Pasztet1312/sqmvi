@@ -135,6 +135,9 @@
             let isMuted = true;
 
             function playVideo(video) {
+                video.pause(); // Ensure video is paused
+                video.currentTime = 0; // Reset to beginning
+                video.load(); // Reload the video
                 video.muted = isMuted;
                 video.style.display = 'block';
                 video.controls = true;
@@ -153,18 +156,6 @@
                     }
                 }
 
-                function exitFullscreen() {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.mozCancelFullScreen) {
-                        document.mozCancelFullScreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
-                }
-
                 function handleFullscreenChange() {
                     if (!document.fullscreenElement && !document.mozFullScreenElement &&
                         !document.webkitFullscreenElement && !document.msFullscreenElement) {
@@ -173,7 +164,6 @@
                     }
                 }
 
-                video.addEventListener('webkitendfullscreen', handleFullscreenChange);
                 document.addEventListener('fullscreenchange', handleFullscreenChange);
                 document.addEventListener('mozfullscreenchange', handleFullscreenChange);
                 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
@@ -184,7 +174,6 @@
             }
 
             function handleVideoEnd(video) {
-                exitFullscreen();
                 video.pause();
                 video.style.display = 'none';
                 goToHome();
