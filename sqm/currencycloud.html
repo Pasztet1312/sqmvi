@@ -121,7 +121,7 @@
             function playVideo(video) {
                 video.muted = isMuted;
                 video.style.display = 'block';
-                video.controls = false;
+                video.controls = true;
 
                 function enterFullscreen() {
                     if (video.requestFullscreen) {
@@ -132,6 +132,8 @@
                         video.webkitRequestFullscreen();
                     } else if (video.msRequestFullscreen) {
                         video.msRequestFullscreen();
+                    } else if (video.webkitEnterFullscreen) {  // iOS specific
+                        video.webkitEnterFullscreen();
                     }
                 }
 
