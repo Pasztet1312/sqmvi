@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fonts/VisaDialect/stylesheet.css">
+    <link rel="preload" href="fonts/VisaDialect/VisaDialect-Medium.woff2" as="font" type="font/woff2">
+    <title>Visa Demo</title>
+    <style>
+        body {
+            font-family: 'Visa Dialect';
+            font-weight: 500;
+            font-style: normal;
+            margin: 0;
+            padding: 0;
+            background-color: #1434cb;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+        }
+        .logo {
+            text-align: center;
+            margin-top: 200px;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 400px;
+            height: auto;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 150px;
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            justify-content: space-evenly;
+        }
+        .controls button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #fcc015;
+            color: black;
+            border: 0px solid #fcc015;
+            border-radius: 26px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .controls button:hover {
+            background-color: #fcc015;
+        }
+        .controls a {
+            text-decoration: none;
+        }
+    </style>
+    <script>
+        function goToHome() {
+            window.location.href = 'visaipads.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="logo">
+        <img src="icons/visa.png" alt="Visa Logo">
+    </div>
+    <div class="controls">
+        <a href="https://www.figma.com/proto/xcdNoA27HPp30BKsRITA5f/v2.4_Click-to-Pay-UX-Guidelines-for-merchants-and-gateways?page-id=13876%3A10798&node-id=15263-11289&viewport=261%2C600%2C0.03&t=xO09AHiMYvCNU8lo-1&scaling=scale-down&starting-point-node-id=13882%3A12017" target="_blank">
+            <button>CTP UX Guidelines</button>
+        </a>
+        <a href="https://www.figma.com/proto/DIjXYiQMfImoJuOCPaDh6U/Money-2020?page-id=0%3A1&node-id=2056-2600&viewport=281%2C-279%2C0.11&t=mm99MbqCH3kJCPpt-1&scaling=scale-down&starting-point-node-id=2056%3A2600" target="_blank">
+            <button>Money 2020</button>
+        </a>
+    </div>
+</body>
+</html>
