@@ -104,7 +104,14 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const video = document.createElement('video');
+            const videos = {
+                video1: "videos/lbg_with_subs_v4.mov",
+                video2: "videos/VisaAS-AIinPaymentsvideo.mov",
+                video3: "videos/VisaASRoadshowusecasefilm.mov",
+                video4: "videos/DigitalCheckoutVideo.mov"
+            };
+            
+            let video = document.createElement('video');
             video.style.display = 'none';
             video.controls = true;
             video.width = '80%';
@@ -166,6 +173,15 @@
                         playVideo(videoSrc);
                     }
                 });
+            });
+
+            // Preload videos
+            Object.keys(videos).forEach(id => {
+                const videoElement = document.createElement('video');
+                videoElement.src = videos[id];
+                videoElement.preload = 'auto';
+                videoElement.style.display = 'none';
+                document.body.appendChild(videoElement);
             });
         });
     </script>
