@@ -51,12 +51,12 @@
             background-color: #fcc015;
         }
         video {
-            display: none;
+            visibility: hidden;
             width: 80%;
             max-width: 800px;
         }
-        .hidden {
-            display: none !important;
+        .visible {
+            visibility: visible !important;
         }
     </style>
     <script>
@@ -71,7 +71,7 @@
             let isMuted = true;
 
             function playVideo(video) {
-                video.classList.add('hidden'); // Add hidden class to hide video initially
+                video.classList.remove('visible'); // Ensure the video is initially hidden
                 video.controls = true;
                 video.muted = isMuted;
                 video.load(); // Ensure video is loaded
@@ -93,10 +93,11 @@
                 function handleFullscreenChange() {
                     if (document.fullscreenElement || document.mozFullScreenElement ||
                         document.webkitFullscreenElement || document.msFullscreenElement) {
-                        video.classList.remove('hidden'); // Show video when entering fullscreen
+                        video.classList.add('visible'); // Show video when entering fullscreen
                     } else {
                         video.pause();
-                        video.style.display = 'none';
+                        video.classList.remove('visible'); // Hide video when exiting fullscreen
+                        goToHome();
                     }
                 }
 
@@ -115,7 +116,7 @@
 
             function handleVideoEnd(video) {
                 video.pause();
-                video.style.display = 'none';
+                video.classList.remove('visible');
                 goToHome();
             }
 
@@ -138,15 +139,15 @@
         <button id="playVideo2">Buy now</button>
         <button id="playVideo3">Checkout</button>
     </div>
-    <video id="video1" class="hidden">
+    <video id="video1">
         <source src="videos/CTP-Login-Money2020.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <video id="video2" class="hidden">
+    <video id="video2">
         <source src="videos/CTP-Buynow-Money2020.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <video id="video3" class="hidden">
+    <video id="video3">
         <source src="videos/CTP-Checkout-Money2020.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
